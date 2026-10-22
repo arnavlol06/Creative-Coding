@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A2 – Order From Chaos</title>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --accent: #7a3cff;
+    --rule: #ddd;
+    --card: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111; --fg: #eee; --muted: #999; --accent: #a98bff; --rule: #333; --card: #1a1a1a; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.65;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 20px 80px; }
+  .tag { font-family: system-ui, sans-serif; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: clamp(2rem, 6vw, 3.2rem); margin: 8px 0 40px; line-height: 1.1; letter-spacing: -0.01em; }
+  section { margin-bottom: 44px; border-top: 1px solid var(--rule); padding-top: 24px; }
+  h2 { font-family: system-ui, sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 14px; }
+  h2 span { color: var(--accent); margin-right: 8px; }
+  .ref { margin-bottom: 18px; }
+  .ref h3 { margin: 0 0 2px; font-size: 1.05rem; }
+  .ref h3 em { font-weight: normal; color: var(--muted); }
+  .ref p { margin: 0; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 24px; }
+  figure { margin: 0; }
+  .ph {
+    aspect-ratio: 4 / 3;
+    border: 1px dashed var(--rule);
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    font-family: system-ui, sans-serif; font-size: 13px; color: var(--muted);
+    text-align: center; padding: 12px;
+  }
+  figcaption { font-family: system-ui, sans-serif; font-size: 13px; color: var(--muted); margin-top: 6px; }
+  /* Simple Rule 90 preview drawn in canvas */
+  canvas { width: 100%; height: auto; image-rendering: pixelated; border: 1px solid var(--rule); display: block; margin-top: 8px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="tag">A2</div>
+  <h1>Order From Chaos</h1>
+
+  <section>
+    <h2><span>1</span>Idea</h2>
+    <p>The project essentially focuses on how complex patterns can emerge from a simple set of rules. Its based off the wolfram method. I want to check out the relationship between order, randomness and repetition. The main question is how much complexity can emerge from a system that focuses on only a few instructions.</p>
+  </section>
+
+  <section>
+    <h2><span>2</span>System and Method</h2>
+    <p>The work will be generated using p5.js in which each cell changes state according to its left neighbour, itself, and its right neighbour.</p>
+    <p>Ill experiment with pj5 with varying patterns and observe the different outputs from the same system.</p>
+    <canvas id="ca" width="161" height="80"></canvas>
+    <figcaption>Illustrative preview: a one-dimensional automaton (Rule 90) drawn row by row. Replace with your own p5.js sketch.</figcaption>
+  </section>
+
+  <section>
+    <h2><span>3</span>References</h2>
+    <div class="ref">
+      <h3>Stephen Wolfram — <em>A New Kind of Science</em></h3>
+      <p>His research into cellular automata demonstrates how simple rules can generate complex and unpredictable behaviour. This forms the conceptual foundation of my project.</p>
+    </div>
+    <div class="ref">
+      <h3>Vera Molnár — <em>Algorithmic and generative drawings</em></h3>
+      <p>Her systematic use of geometric rules and controlled variations inspires me to explore how small changes in parameters can create different visual outcomes.</p>
+    </div>
+    <div class="ref">
+      <h3>Casey Reas — <em>Process</em></h3>
+      <p>His exploration of rule-based generative art inspires my approach to translating computational instructions into evolving visual compositions.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span>4</span>Proposed Physical Artifact</h2>
+    <p>I propose creating a layered generative artwork that translates the patterns produced in p5.js into a physical object.</p>
+    <p>The physical form is still open to experimentation. I want to investigate whether the pattern works best as a layered sculpture, a cut-out structure, or a generative print.</p>
+    <p>The artifact I want to try and create would be something related to a layered light piece. It will essentially create the patterns and randomness from pj5 into a physical object. When stacked these layers will create an overlapping geometric pattern. (still experimenting with ideas.</p>
+
+    <div class="gallery">
+      <figure><div class="ph">Image 1: stacked black-and-white patterned boards</div><figcaption>Reference: layered pattern boards</figcaption></figure>
+      <figure><div class="ph">Image 2: stacked layers forming an "X" form</div><figcaption>Reference: stacked layers creating a 3D form</figcaption></figure>
+      <figure><div class="ph">Image 3: drawings on transparent sheets assembled into a layered structure</div><figcaption>Reference: transparent sheet layering process</figcaption></figure>
+      <figure><div class="ph">Image 4: spaced clear acrylic sheets in a slotted base</div><figcaption>Reference: acrylic sheets in a slotted base</figcaption></figure>
+      <figure><div class="ph">Image 5: lit, etched acrylic panels in a dark room</div><figcaption>Reference: edge-lit etched acrylic layers</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Rule 90 preview
+  (function () {
+    var c = document.getElementById('ca');
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var w = c.width, h = c.height;
+    var row = new Array(w).fill(0);
+    row[Math.floor(w / 2)] = 1;
+    var rule = 90;
+    ctx.fillStyle = getComputedStyle(document.body).color;
+    for (var y = 0; y < h; y++) {
+      for (var x = 0; x < w; x++) if (row[x]) ctx.fillRect(x, y, 1, 1);
+      var next = new Array(w).fill(0);
+      for (var i = 0; i < w; i++) {
+        var l = row[(i - 1 + w) % w], s = row[i], r = row[(i + 1) % w];
+        next[i] = (rule >> (l * 4 + s * 2 + r)) & 1;
+      }
+      row = next;
+    }
+  })();
+</script>
+</body>
+</html>
